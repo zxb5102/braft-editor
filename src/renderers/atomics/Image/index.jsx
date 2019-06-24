@@ -28,15 +28,16 @@ export default class Image extends React.Component {
       this.initialTop = e.screenY
     }
     if(type === 'rightbottom'){
-      this.initialHeight +=  e.screenY-this.initialTop
+      // this.initialHeight +=  e.screenY-this.initialTop
       this.initialWidth +=  e.screenX-this.initialLeft
     }
     if(type === 'leftbottom'){
-      this.initialHeight +=  e.screenY-this.initialTop
-      this.initialWidth +=  -e.screenX+this.initialLeft
+      // this.initialHeight +=  e.screenY-this.initialTop
+      this.initialWidth  +=  -e.screenX+this.initialLeft
     }
     
-   
+    this.initialHeight = ( this.originHeight/this.originWidth ) * this.initialWidth;
+
     this.initialLeft = e.screenX
     this.initialTop = e.screenY
   }
@@ -66,6 +67,11 @@ export default class Image extends React.Component {
     e.preventDefault()
     document.addEventListener('mousemove', this.moveImage)
     document.addEventListener('mouseup', this.upImage)
+  }
+  getInitSize = ()=>{
+    let style = window.getComputedStyle(this.imageElement);
+    this.originHeight = parseFloat(style.height) ;
+    this.originWidth = parseFloat(style.width) ;
   }
 
   render () {
@@ -164,9 +170,13 @@ export default class Image extends React.Component {
             <img
               ref={instance => this.imageElement = instance}
               src={url}
+              onLoad={this.getInitSize}
               width={width}
-              height={height}
-              {...meta}
+              height="auto"
+              style={{
+                width:width
+              }}
+              // {...meta}
             />
             {toolbarVisible && imageResizable ? <div className='bf-csize-icon right-bottom' onMouseDown={this.repareChangeSize('rightbottom')} /> : null}
             {toolbarVisible && imageResizable ? <div className='bf-csize-icon left-bottom' onMouseDown={this.repareChangeSize('leftbottom')} /> : null}

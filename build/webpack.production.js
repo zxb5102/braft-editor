@@ -6,7 +6,7 @@ var merge = require('webpack-merge')
 
 module.exports = merge(baseConfigs, {
   mode: 'production',
-  devtool: 'source-map',
+  // devtool: 'source-map',
   context: path.join(__dirname, '../src'),
   entry: {
     index: './index.jsx'
@@ -29,7 +29,7 @@ module.exports = merge(baseConfigs, {
     'immutable': 'immutable'
   },
   optimization: {
-    minimize: false,
+    minimize: true,
   },
   plugins: [
     new ExtractTextPlugin('index.css'),
