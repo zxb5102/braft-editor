@@ -70,14 +70,17 @@ export default class Image extends React.Component {
   }
   getInitSize = ()=>{
     let style = window.getComputedStyle(this.imageElement);
-    this.originHeight = parseFloat(style.height) ;
-    this.originWidth = parseFloat(style.width) ;
+    this.originHeight = parseFloat(style.height);
+    this.originWidth = parseFloat(style.width);
   }
 
   render () {
 
     const { mediaData, language, imageControls, imageResizable } = this.props
-    const { toolbarVisible, toolbarOffset, linkEditorVisible, sizeEditorVisible, tempWidth, tempHeight } = this.state
+    let { toolbarVisible, toolbarOffset, linkEditorVisible, sizeEditorVisible, tempWidth, tempHeight } = this.state
+    tempWidth = parseFloat(tempWidth);
+    tempHeight = parseFloat(tempHeight);
+    
     const blockData = this.props.block.getData()
 
     let float = blockData.get('float')
@@ -157,7 +160,7 @@ export default class Image extends React.Component {
                 <div className='bf-image-size-editor'>
                   <div className='editor-input-group'>
                     <input type='text' onDragStart={this.preventDragEvent} placeholder={language.base.width} onKeyDown={this.handleSizeInputKeyDown} onChange={this.setImageWidth} defaultValue={width}/>
-                    <input type='text' onDragStart={this.preventDragEvent} placeholder={language.base.height} onKeyDown={this.handleSizeInputKeyDown} onChange={this.setImageHeight} defaultValue={height}/>
+                    {/* <input type='text' onDragStart={this.preventDragEvent} placeholder={language.base.height} onKeyDown={this.handleSizeInputKeyDown} onChange={this.setImageHeight} defaultValue={height}/> */}
                     <button type='button' onClick={this.confirmImageSize}>{language.base.confirm}</button>
                   </div>
                 </div>
@@ -353,11 +356,18 @@ export default class Image extends React.Component {
   setImageWidth = ({ currentTarget }) => {
 
     let { value } = currentTarget
+    // value  = value || 0;
+    let parseStr = parseFloat(value);
+    if(parseStr !== parseStr){
+      return;
+    }
 
-    value && !isNaN(value) && (value = value + 'px')
+    // value && !isNaN(value) && (value = value + 'px')
+    let theight = ( this.originHeight/this.originWidth ) * parseStr;
 
     this.setState({
-      tempWidth: value
+      tempWidth: parseStr,
+      tempHeight: theight
     })
 
     return
@@ -379,6 +389,12 @@ export default class Image extends React.Component {
   confirmImageSize = () => {
 
     const { tempWidth: width, tempHeight: height } = this.state
+    // this.initialHeight = ( this.originHeight/this.originWidth ) * this.initialWidth;
+    // console.log(width);
+    // this.setState({
+    //   tempWidth: Math.abs(this.initialWidth),
+    //   tempHeight: Math.abs(this.initialHeight)
+    // })
     let newImageSize = {}
 
     width !== null && (newImageSize.width = width)
