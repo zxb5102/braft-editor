@@ -105,7 +105,6 @@ export default class Image extends React.Component {
     }
 
     const renderedControlItems = imageControls.map((item, index) => {
-
       if (typeof item === 'string' && imageControlItems[item]) {
         return (
           <a className={item === 'link' && link ? 'active' : ''} key={index} href='javascript:void(0);' onClick={() => this.executeCommand(imageControlItems[item].command)}>
@@ -159,7 +158,7 @@ export default class Image extends React.Component {
               {sizeEditorVisible ? (
                 <div className='bf-image-size-editor'>
                   <div className='editor-input-group'>
-                    <input type='text' onDragStart={this.preventDragEvent} placeholder={language.base.width} onKeyDown={this.handleSizeInputKeyDown} onChange={this.setImageWidth} defaultValue={width}/>
+                    <input type='text'data-key="test" placeholder={language.base.width} onKeyDown={this.handleSizeInputKeyDown} onChange={this.setImageWidth} defaultValue={width}/>
                     {/* <input type='text' onDragStart={this.preventDragEvent} placeholder={language.base.height} onKeyDown={this.handleSizeInputKeyDown} onChange={this.setImageHeight} defaultValue={height}/> */}
                     <button type='button' onClick={this.confirmImageSize}>{language.base.confirm}</button>
                   </div>
@@ -266,7 +265,6 @@ export default class Image extends React.Component {
   }
 
   executeCommand = (command) => {
-
     if (typeof command === 'string') {
       const [method, param] = command.split('|')
       this[method] && this[method](param)
@@ -296,7 +294,6 @@ export default class Image extends React.Component {
   }
 
   handleLinkInputKeyDown = (e) => {
-
     if (e.keyCode === 13) {
       this.confirmImageLink()
     } else {
@@ -354,7 +351,6 @@ export default class Image extends React.Component {
   }
 
   setImageWidth = ({ currentTarget }) => {
-
     let { value } = currentTarget
     // value  = value || 0;
     let parseStr = parseFloat(value);
@@ -364,7 +360,6 @@ export default class Image extends React.Component {
 
     // value && !isNaN(value) && (value = value + 'px')
     let theight = ( this.originHeight/this.originWidth ) * parseStr;
-
     this.setState({
       tempWidth: parseStr,
       tempHeight: theight
@@ -432,18 +427,17 @@ export default class Image extends React.Component {
 
   setImageAlignment = (alignment) => {
 
-    const hookReturns = this.props.hooks('set-image-alignment', alignment)(alignment)
+    // const hookReturns = this.props.hooks('set-image-alignment', alignment)(alignment)
 
-    if (hookReturns === false) {
-      return false
-    }
+    // if (hookReturns === false) {
+    //   return false
+    // }
 
-    if (typeof hookReturns === 'string') {
-      alignment = hookReturns
-    }
-
+    // if (typeof hookReturns === 'string') {
+    //   alignment = hookReturns
+    // }
     this.props.editor.setValue(ContentUtils.setMediaPosition(this.props.editor.getValue(), this.props.block, { alignment }))
-    this.unlockEditor()
+    // this.unlockEditor()
   }
 
   showToolbar = (event) => {

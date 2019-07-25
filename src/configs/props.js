@@ -47,7 +47,7 @@ export default {
     },
   },
   imageControls: [
-    'float-left', 'float-right',
+    // 'float-left', 'float-right',
     'align-left', 'align-center', 'align-right',
     'link', 'size', 'remove'
   ],

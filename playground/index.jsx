@@ -14,8 +14,8 @@ import 'braft-extensions/dist/code-highlighter.css'
 const emoticons = defaultEmoticons.map(item => require(`braft-extensions/dist/assets/${item}`))
 
 const hooks = {
-  'set-image-alignment': () => {
-    return 'left'
+  'set-image-alignment': (item) => {
+    return item
   }
 }
 
@@ -45,7 +45,6 @@ class Demo extends React.Component {
   }
 
   handleChange = (editorState) => {
-    console.log('change')
     this.setState({ editorState })
   }
 
